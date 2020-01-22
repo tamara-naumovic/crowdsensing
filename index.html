@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Poeni sa istraživanja</title>
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            font-size: 1.5em;
+            font-family: 'Roboto', sans-serif;
+            background-color: steelblue;
+            color: white;
+        }
+
+        #forma {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        form {
+            height: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            align-content: center;
+        }
+
+        select,
+        input,
+        button {
+            height: 50px;
+            width: 200px;
+            border-radius: .5em;
+        }
+        #brojmerenja{
+            padding-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="forma">
+        <form>
+            <label for="opcije">Odaberite tip merenja</label>
+            <select id="opcije">
+                <option value="vibracije">Merenje vibracija</option>
+                <option value="buka">Merenje buke</option>
+            </select>
+            <label for="mac">Unesite MAC adresu</label>
+            <input name="mac" type="text" placeholder="3C:3F:40:4E:F7:09" id="macadresa">
+            <button type="button" name="submit" id="submit">Proveri broj merenja</button>
+        </form>
+
+        <label for="brojmerenja" id="lblbrojmerenja" hidden>Ostvareni broj merenja je:</label>
+        <input type="text" name="brojmerenja" id="brojmerenja" disabled hidden>
+    </div>
+
+    <script>
+        document.getElementById("submit").addEventListener("click", function () {
+
+            const macadresa = document.getElementById("macadresa").value;
+            const regex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
+            if (regex.test(macadresa)) {
+                var e = document.getElementById("opcije");
+                var url = "";
+                if (e.options[e.selectedIndex].value=="vibracije"){
+                    url = "https://crowdsensing.elab.fon.bg.ac.rs/controller.php?action=vratiMac&mac=" + macadresa;
+                }else if (e.options[e.selectedIndex].value=="buka"){
+                    url = "https://crowdsensing.elab.fon.bg.ac.rs/controller.php?action=vratiMacVib&mac=" + macadresa;
+                }else{
+                    console.log("Opcija nije odabrana");
+                }  
+                $.getJSON(url, function (data) {
+                    document.getElementById("brojmerenja").value = data.length;
+                    document.getElementById("lblbrojmerenja").hidden = false;
+                    document.getElementById("brojmerenja").hidden = false;
+                });
+            }else{
+                alert("Uneta mac adresa nije validna");
+                location.reload();
+            }
+
+        });
+
+    </script>
+</body>
+
+</html>
