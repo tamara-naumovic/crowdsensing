@@ -12,48 +12,9 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <style>
-        html,
-        body {
-            margin: 0;
-            height: 100%;
-            font-size: 1.5em;
-            font-family: 'Roboto', sans-serif;
-            background-color: steelblue;
-            color: white;
-        }
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-        #forma {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-        }
-
-        form {
-            height: 40%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            align-items: center;
-            align-content: center;
-        }
-
-        select,
-        input,
-        button {
-            height: 50px;
-            width: 200px;
-            border-radius: .5em;
-        }
-        #brojmerenja{
-            padding-left: 10px;
-        }
-    </style>
 </head>
 
 <body>
@@ -74,34 +35,7 @@
         <input type="text" name="brojmerenja" id="brojmerenja" disabled hidden>
     </div>
 
-    <script>
-        document.getElementById("submit").addEventListener("click", function () {
-
-            const macadresa = document.getElementById("macadresa").value.toUpperCase();
-            const regex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
-            if (regex.test(macadresa)) {
-                var e = document.getElementById("opcije");
-                var url = "";
-                if (e.options[e.selectedIndex].value=="vibracije"){
-                    url = "https://crowdsensing.elab.fon.bg.ac.rs/controller.php?action=vratiMac&mac=" + macadresa;
-                }else if (e.options[e.selectedIndex].value=="buka"){
-                    url = "https://crowdsensing.elab.fon.bg.ac.rs/controller.php?action=vratiMacVib&mac=" + macadresa;
-                }else{
-                    console.log("Opcija nije odabrana");
-                }  
-                $.getJSON(url, function (data) {
-                    document.getElementById("brojmerenja").value = data.length;
-                    document.getElementById("lblbrojmerenja").hidden = false;
-                    document.getElementById("brojmerenja").hidden = false;
-                });
-            }else{
-                alert("Uneta mac adresa nije validna");
-                location.reload();
-            }
-
-        });
-
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
