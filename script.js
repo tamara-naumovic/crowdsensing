@@ -6,9 +6,9 @@ document.getElementById("submit").addEventListener("click", function() {
         var e = document.getElementById("opcije");
         var url = "";
         if (e.options[e.selectedIndex].value == "vibracije") {
-            url = "https://crowdsensing.elab.fon.bg.ac.rs/controller.php?action=vratiMac&mac=" + macadresa;
-        } else if (e.options[e.selectedIndex].value == "buka") {
             url = "https://crowdsensing.elab.fon.bg.ac.rs/controller.php?action=vratiMacVib&mac=" + macadresa;
+        } else if (e.options[e.selectedIndex].value == "buka") {
+            url = "https://crowdsensing.elab.fon.bg.ac.rs/controller.php?action=vratiMac&mac=" + macadresa;
         } else {
             console.log("Opcija nije odabrana");
         }
